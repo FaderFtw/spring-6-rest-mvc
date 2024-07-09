@@ -21,6 +21,14 @@ public class BeerController {
     @Autowired
     private BeerService beerService;
 
+
+    @PatchMapping("{beerId}")
+    public ResponseEntity<?> updateBeer(@PathVariable("beerId") UUID beerId, @RequestBody Beer beer){
+        log.debug("Patch Beer - in Controller");
+        beerService.patchBeerById(beerId, beer);
+        return ResponseEntity.noContent().build();
+    }
+
     @PutMapping("{beerId}")
     public ResponseEntity<?> updateBeerById(@PathVariable("beerId") UUID beerId, @RequestBody Beer beer){
         log.debug("Update Beer by Id - in Controller");
