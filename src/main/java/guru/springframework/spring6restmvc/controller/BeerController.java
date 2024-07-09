@@ -21,8 +21,17 @@ public class BeerController {
     @Autowired
     private BeerService beerService;
 
+    @PutMapping("{beerId}")
+    public ResponseEntity<?> updateBeerById(@PathVariable("beerId") UUID beerId, @RequestBody Beer beer){
+        log.debug("Update Beer by Id - in Controller");
+        beerService.updateBeerById(beerId, beer);
+        return ResponseEntity.noContent().build();
+
+        // return ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
     @PostMapping
-    public ResponseEntity handlePost(@RequestBody Beer beer){
+    public ResponseEntity<?> handlePost(@RequestBody Beer beer){
         log.debug("Save New Beer - in Controller");
         Beer savedBeer = beerService.saveNewBeer(beer);
         return ResponseEntity.created(URI.create("/api/v1/beer/" + savedBeer.getId().toString())).build();
