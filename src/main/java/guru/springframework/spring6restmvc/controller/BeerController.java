@@ -21,6 +21,15 @@ public class BeerController {
     @Autowired
     private BeerService beerService;
 
+    @DeleteMapping("{beerId}")
+    public ResponseEntity<?> deleteBeerById(@PathVariable("beerId") UUID beerId){
+        log.debug("Delete Beer by Id - in Controller");
+        beerService.deleteBeerById(beerId);
+        return ResponseEntity.noContent().build();
+
+        // return ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
     @PutMapping("{beerId}")
     public ResponseEntity<?> updateBeerById(@PathVariable("beerId") UUID beerId, @RequestBody Beer beer){
         log.debug("Update Beer by Id - in Controller");
