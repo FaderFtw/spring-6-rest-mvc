@@ -5,6 +5,8 @@ import guru.springframework.spring6restmvc.service.BeerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,18 +15,23 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
+@RequestMapping("/api/v1/beer")
 public class BeerController {
     @Autowired
     private BeerService beerService;
 
-    @RequestMapping("/api/v1/beer")
+    //@RequestMapping(method = RequestMethod.GET)
+    @GetMapping({"", "/"})
     public List<Beer> listBeers(){
+        log.debug("List Beers - in controller");
         return beerService.listBeers();
     }
 
-    public Beer getBeerById(UUID id){
+    //@RequestMapping(method = RequestMethod.GET, value = "/{beerId}")
+    @GetMapping("/{beerId}")
+    public Beer getBeerById(@PathVariable("beerId") String beerId){
         log.debug("Get Beer by Id - in controller");
-        return beerService.getBeerById(id);
+        return beerService.getBeerById(UUID.fromString(beerId));
     }
 
 }
